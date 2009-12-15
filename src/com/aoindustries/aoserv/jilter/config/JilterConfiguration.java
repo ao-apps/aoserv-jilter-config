@@ -41,7 +41,7 @@ public class JilterConfiguration {
      * incompatible way.  Newer versions of the code may choose to support older formats, but this should
      * not be necessary because the aoserv-daemon will overwrite the config file within a minute of start-up.
      */
-    private static final String VERSION="2007-05-13";
+    private static final String VERSION="2009-12-15";
 
     private static final String PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties";
     private static final String NEW_PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties.new";
@@ -75,7 +75,7 @@ public class JilterConfiguration {
     final private String emailSummaryTo;
     final private String emailFullFrom;
     final private String emailFullTo;
-    final private Map<String,String> domainPackages;
+    final private Map<String,String> domainBusinesses;
     final private Map<String,Set<String>> domainAddresses;
     final private Set<String> ips;
     final private Set<String> denies;
@@ -93,7 +93,7 @@ public class JilterConfiguration {
         String emailSummaryTo,
         String emailFullFrom,
         String emailFullTo,
-        Map<String,String> domainPackages,
+        Map<String,String> domainBusinesses,
         Map<String,Set<String>> domainAddresses,
         Set<String> ips,
         Set<String> denies,
@@ -111,7 +111,7 @@ public class JilterConfiguration {
         this.emailSummaryTo = emailSummaryTo;
         this.emailFullFrom = emailFullFrom;
         this.emailFullTo = emailFullTo;
-        this.domainPackages = domainPackages;
+        this.domainBusinesses = domainBusinesses;
         this.domainAddresses = domainAddresses;
         this.ips = ips;
         this.denies = denies;
@@ -153,7 +153,7 @@ public class JilterConfiguration {
         emailFullFrom = props.getProperty("email.full.from");
         emailFullTo = props.getProperty("email.full.to");
 
-        domainPackages = new HashMap<String,String>();
+        domainBusinesses = new HashMap<String,String>();
         domainAddresses = new HashMap<String,Set<String>>();
         ips = new HashSet<String>();
         denies = new HashSet<String>();
@@ -166,13 +166,13 @@ public class JilterConfiguration {
         while(E.hasMoreElements()) {
             String key = (String)E.nextElement();
             String value = props.getProperty(key);
-            if(key.startsWith("domainPackages.")) {
-                // domainPackages
+            if(key.startsWith("domainBusinesses.")) {
+                // domainBusinesses
                 int pos = value.indexOf('|');
-                if(pos==-1) throw new IOException("Unable to parse domainPackages: "+value);
-                String packageName = value.substring(0, pos);
+                if(pos==-1) throw new IOException("Unable to parse domainBusinesses: "+value);
+                String accounting = value.substring(0, pos);
                 String domain = value.substring(pos+1);
-                domainPackages.put(domain, packageName);
+                domainBusinesses.put(domain, accounting);
                 // Add to domainAddresses just in case the domain has no addresses
                 if(!domainAddresses.containsKey(domain)) domainAddresses.put(domain, new HashSet<String>());
             } else if(key.startsWith("addresses.")) {
@@ -293,10 +293,10 @@ public class JilterConfiguration {
                 if(emailFullFrom!=null) props.setProperty("email.full.from", emailFullFrom);
                 if(emailFullTo!=null) props.setProperty("email.full.to", emailFullTo);
 
-                // domainPackages
+                // domainBusinesses
                 int domainCounter = 1;
-                for(String domain : domainPackages.keySet()) {
-                    props.setProperty("domainPackages."+(domainCounter++), domainPackages.get(domain)+"|"+domain);
+                for(String domain : domainBusinesses.keySet()) {
+                    props.setProperty("domainBusinesses."+(domainCounter++), domainBusinesses.get(domain)+"|"+domain);
                 }
                 
                 // domainAddresses
@@ -424,10 +424,10 @@ public class JilterConfiguration {
     }
 
     /**
-     * Gets the unique package name for a domain or <code>null</code> if domain doesn't exist.
+     * Gets the unique business name for a domain or <code>null</code> if domain doesn't exist.
      */
-    public String getPackageName(String domain) {
-        return domainPackages.get(domain.toLowerCase());
+    public String getBusiness(String domain) {
+        return domainBusinesses.get(domain.toLowerCase());
     }
 
     /**
@@ -467,24 +467,24 @@ public class JilterConfiguration {
     }
 
     /**
-     * Gets the inbound <code>EmailLimit</code> given its unique package name or <code>null</code> if unlimited.
+     * Gets the inbound <code>EmailLimit</code> given its unique business name or <code>null</code> if unlimited.
      */
-    public EmailLimit getEmailInLimit(String packageName) {
-        return emailInLimits.get(packageName);
+    public EmailLimit getEmailInLimit(String accounting) {
+        return emailInLimits.get(accounting);
     }
 
     /**
-     * Gets the outbound <code>EmailLimit</code> given its unique package name or <code>null</code> if unlimited.
+     * Gets the outbound <code>EmailLimit</code> given its unique business name or <code>null</code> if unlimited.
      */
-    public EmailLimit getEmailOutLimit(String packageName) {
-        return emailOutLimits.get(packageName);
+    public EmailLimit getEmailOutLimit(String accounting) {
+        return emailOutLimits.get(accounting);
     }
 
     /**
-     * Gets the relay <code>EmailLimit</code> given its unique package name or <code>null</code> if unlimited.
+     * Gets the relay <code>EmailLimit</code> given its unique business name or <code>null</code> if unlimited.
      */
-    public EmailLimit getEmailRelayLimit(String packageName) {
-        return emailRelayLimits.get(packageName);
+    public EmailLimit getEmailRelayLimit(String accounting) {
+        return emailRelayLimits.get(accounting);
     }
 
     public boolean equals(Object O) {
@@ -542,8 +542,8 @@ public class JilterConfiguration {
             return false;
         }
 
-        if(!equalsMap(domainPackages, other.domainPackages)) {
-            log.trace("equals(JilterConfiguration other): domainPackages != other.domainPackages, returning false");
+        if(!equalsMap(domainBusinesses, other.domainBusinesses)) {
+            log.trace("equals(JilterConfiguration other): domainBusinesses != other.domainBusinesses, returning false");
             return false;
         }
 
