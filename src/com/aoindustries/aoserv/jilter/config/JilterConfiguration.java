@@ -1,10 +1,10 @@
-package com.aoindustries.aoserv.jilter.config;
-
 /*
- * Copyright 2007-2010 by AO Industries, Inc.,
+ * Copyright 2007-2011 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
+package com.aoindustries.aoserv.jilter.config;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -41,7 +42,8 @@ public class JilterConfiguration {
      * incompatible way.  Newer versions of the code may choose to support older formats, but this should
      * not be necessary because the aoserv-daemon will overwrite the config file within a minute of start-up.
      */
-    private static final String VERSION="2009-12-15";
+    private static final String VERSION_1="2007-05-13";
+    private static final String VERSION_2="2009-12-15";
 
     private static final String PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties";
     private static final String NEW_PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties.new";
@@ -103,7 +105,7 @@ public class JilterConfiguration {
         Map<String,EmailLimit> emailOutLimits,
         Map<String,EmailLimit> emailRelayLimits
     ) {
-        this.version = VERSION;
+        this.version = VERSION_2;
         this.primaryIP = primaryIP;
         this.restrict_outbound_email = restrict_outbound_email;
         this.smtpServer = smtpServer;
@@ -137,8 +139,11 @@ public class JilterConfiguration {
         }
         
         // Make sure the version matches, throw IOException if doesn't
+        final String businessesKey;
         version = props.getProperty("version");
-        if(!VERSION.equals(version)) throw new IOException("Incorrect version for properties file \""+PROPS_FILE+"\".  Must be version \""+VERSION+"\".  version=\""+version+'"');
+        if(VERSION_1.equals(version)) businessesKey="domainPackages";
+        else if(VERSION_2.equals(version)) businessesKey = "domainBusinesses";
+        else throw new IOException("Incorrect version for properties file \""+PROPS_FILE+"\".  Must be version \""+VERSION_1+"\" or \""+VERSION_2+"\".  version=\""+version+'"');
 
         // primaryIP
         primaryIP = props.getProperty("primaryIP");
@@ -166,10 +171,10 @@ public class JilterConfiguration {
         while(E.hasMoreElements()) {
             String key = (String)E.nextElement();
             String value = props.getProperty(key);
-            if(key.startsWith("domainBusinesses.")) {
+            if(key.startsWith(businessesKey+".")) {
                 // domainBusinesses
                 int pos = value.indexOf('|');
-                if(pos==-1) throw new IOException("Unable to parse domainBusinesses: "+value);
+                if(pos==-1) throw new IOException("Unable to parse "+businessesKey+": "+value);
                 String accounting = value.substring(0, pos);
                 String domain = value.substring(pos+1);
                 domainBusinesses.put(domain, accounting);
@@ -278,7 +283,7 @@ public class JilterConfiguration {
                 Properties props = new Properties();
 
                 // VERSION
-                props.setProperty("version", VERSION);
+                props.setProperty("version", VERSION_2);
 
                 // primaryIP
                 props.setProperty("primaryIP", primaryIP);
@@ -427,7 +432,7 @@ public class JilterConfiguration {
      * Gets the unique business name for a domain or <code>null</code> if domain doesn't exist.
      */
     public String getBusiness(String domain) {
-        return domainBusinesses.get(domain.toLowerCase());
+        return domainBusinesses.get(domain.toLowerCase(Locale.ENGLISH));
     }
 
     /**
@@ -435,7 +440,7 @@ public class JilterConfiguration {
      * domain doesn't exist at all then returns <code>null</code>.  Domain is case-insensitive by conversion to lower-case.
      */
     public Set<String> getAddresses(String domain) {
-        return domainAddresses.get(domain.toLowerCase());
+        return domainAddresses.get(domain.toLowerCase(Locale.ENGLISH));
     }
     
     /**
@@ -487,6 +492,7 @@ public class JilterConfiguration {
         return emailRelayLimits.get(accounting);
     }
 
+    @Override
     public boolean equals(Object O) {
         if(O==null) {
             log.trace("equals(Object O): O == null, returning false");
