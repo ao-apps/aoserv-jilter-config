@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2011 by AO Industries, Inc.,
+ * Copyright 2007-2013 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -35,7 +35,10 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JilterConfiguration {
 
-    public static final int MILTER_PORT = 12000;
+	/**
+	 * The default milter port.
+	 */
+    public static final int DEFAULT_MILTER_PORT = 12000;
 
     /**
      * This version number should be updated whenever the on-disk format of the configuration has been changed in an
@@ -44,8 +47,9 @@ public class JilterConfiguration {
      */
     private static final String VERSION_1="2007-05-13";
     private static final String VERSION_2="2009-12-15";
+    private static final String VERSION_3="2013-07-13";
 
-    private static final String PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties";
+    public static final String PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties";
     private static final String NEW_PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties.new";
 
     private static final File propsUF = new File(PROPS_FILE);
@@ -70,7 +74,8 @@ public class JilterConfiguration {
     }
 
     final private String version;
-    final private String primaryIP;
+    final private String listenIP;
+	final private int listenPort;
     final private boolean restrict_outbound_email;
     final private String smtpServer;
     final private String emailSummaryFrom;
@@ -88,7 +93,8 @@ public class JilterConfiguration {
     final private Map<String,EmailLimit> emailRelayLimits;
 
     public JilterConfiguration(
-        String primaryIP,
+        String listenIP,
+		int listenPort,
         boolean restrict_outbound_email,
         String smtpServer,
         String emailSummaryFrom,
@@ -105,8 +111,9 @@ public class JilterConfiguration {
         Map<String,EmailLimit> emailOutLimits,
         Map<String,EmailLimit> emailRelayLimits
     ) {
-        this.version = VERSION_2;
-        this.primaryIP = primaryIP;
+        this.version = VERSION_3;
+        this.listenIP = listenIP;
+		this.listenPort = listenPort;
         this.restrict_outbound_email = restrict_outbound_email;
         this.smtpServer = smtpServer;
         this.emailSummaryFrom = emailSummaryFrom;
@@ -142,13 +149,23 @@ public class JilterConfiguration {
         final String businessesKey;
         version = props.getProperty("version");
         if(VERSION_1.equals(version)) businessesKey="domainPackages";
-        else if(VERSION_2.equals(version)) businessesKey = "domainBusinesses";
-        else throw new IOException("Incorrect version for properties file \""+PROPS_FILE+"\".  Must be version \""+VERSION_1+"\" or \""+VERSION_2+"\".  version=\""+version+'"');
+        else businessesKey = "domainBusinesses";
 
-        // primaryIP
-        primaryIP = props.getProperty("primaryIP");
-        
-        // restrict_outbound_email
+        // listenIP
+        listenIP = props.getProperty(
+			VERSION_1.equals(version) || VERSION_2.equals(version)
+			? "primaryIP"
+			: "listenIP"
+		);
+		
+		// listenPort
+		listenPort = 
+			VERSION_1.equals(version) || VERSION_2.equals(version)
+			? DEFAULT_MILTER_PORT
+			: Integer.parseInt(props.getProperty("listenPort"))
+		;
+
+		// restrict_outbound_email
         restrict_outbound_email = "true".equals(props.getProperty("restrict_outbound_email"));
 
         // Email settings
@@ -283,10 +300,13 @@ public class JilterConfiguration {
                 Properties props = new Properties();
 
                 // VERSION
-                props.setProperty("version", VERSION_2);
+                props.setProperty("version", VERSION_3);
 
-                // primaryIP
-                props.setProperty("primaryIP", primaryIP);
+                // listenIP
+                props.setProperty("listenIP", listenIP);
+				
+				// listenPort
+				props.setProperty("listenPort", Integer.toString(listenPort));
 
                 // restrict_outbound_email
                 props.setProperty("restrict_outbound_email", restrict_outbound_email ? "true" : "false");
@@ -380,13 +400,20 @@ public class JilterConfiguration {
     }
 
     /**
-     * @see  AOServer#getPrimaryIPAddress()
+     * @see  AOServer#getNetBinds(Protocol.MILTER)
      */
-    public String getPrimaryIP() {
-        return primaryIP;
+    public String getListenIP() {
+        return listenIP;
     }
 
     /**
+     * @see  AOServer#getNetBinds(Protocol.MILTER)
+     */
+    public int getListenPort() {
+        return listenPort;
+    }
+
+	/**
      * @see  AOServer#getRestrictOutboundEmail()
      */
     public boolean getRestrictOutboundEmail() {
@@ -513,12 +540,17 @@ public class JilterConfiguration {
             return false;
         }
 
-        if(!primaryIP.equals(other.primaryIP)) {
-            log.trace("equals(JilterConfiguration other): primaryIP != other.primaryIP, returning false");
+        if(!listenIP.equals(other.listenIP)) {
+            log.trace("equals(JilterConfiguration other): listenIP != other.listenIP, returning false");
             return false;
         }
         
-        if(restrict_outbound_email!=other.restrict_outbound_email) {
+        if(listenPort != other.listenPort) {
+            log.trace("equals(JilterConfiguration other): listenPort != other.listenPort, returning false");
+            return false;
+        }
+
+		if(restrict_outbound_email!=other.restrict_outbound_email) {
             log.trace("equals(JilterConfiguration other): restrict_outbound_email != other.restrict_outbound_email, returning false");
             return false;
         }
