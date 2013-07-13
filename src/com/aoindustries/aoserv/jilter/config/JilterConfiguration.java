@@ -5,6 +5,7 @@
  */
 package com.aoindustries.aoserv.jilter.config;
 
+import com.aoindustries.util.SortedProperties;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -138,11 +139,8 @@ public class JilterConfiguration {
      */
     private JilterConfiguration() throws IOException {
         Properties props = new Properties();
-        FileInputStream in = new FileInputStream(PROPS_FILE);
-        try {
+        try (FileInputStream in = new FileInputStream(PROPS_FILE)) {
             props.load(in);
-        } finally {
-            in.close();
         }
         
         // Make sure the version matches, throw IOException if doesn't
@@ -159,11 +157,15 @@ public class JilterConfiguration {
 		);
 		
 		// listenPort
-		listenPort = 
-			VERSION_1.equals(version) || VERSION_2.equals(version)
-			? DEFAULT_MILTER_PORT
-			: Integer.parseInt(props.getProperty("listenPort"))
-		;
+		try {
+			listenPort = 
+				VERSION_1.equals(version) || VERSION_2.equals(version)
+				? DEFAULT_MILTER_PORT
+				: Integer.parseInt(props.getProperty("listenPort"))
+			;
+		} catch(NumberFormatException err) {
+			throw new IOException("Unable to parse listenPort: "+props.getProperty("listenPort"), err);
+		}
 
 		// restrict_outbound_email
         restrict_outbound_email = "true".equals(props.getProperty("restrict_outbound_email"));
@@ -175,16 +177,16 @@ public class JilterConfiguration {
         emailFullFrom = props.getProperty("email.full.from");
         emailFullTo = props.getProperty("email.full.to");
 
-        domainBusinesses = new HashMap<String,String>();
-        domainAddresses = new HashMap<String,Set<String>>();
-        ips = new HashSet<String>();
-        denies = new HashSet<String>();
-        denySpams = new HashSet<String>();
-        allowRelays = new HashSet<String>();
-        emailInLimits = new HashMap<String,EmailLimit>();
-        emailOutLimits = new HashMap<String,EmailLimit>();
-        emailRelayLimits = new HashMap<String,EmailLimit>();
-        Enumeration E = props.propertyNames();
+        domainBusinesses = new HashMap<>();
+        domainAddresses = new HashMap<>();
+        ips = new HashSet<>();
+        denies = new HashSet<>();
+        denySpams = new HashSet<>();
+        allowRelays = new HashSet<>();
+        emailInLimits = new HashMap<>();
+        emailOutLimits = new HashMap<>();
+        emailRelayLimits = new HashMap<>();
+        Enumeration<?> E = props.propertyNames();
         while(E.hasMoreElements()) {
             String key = (String)E.nextElement();
             String value = props.getProperty(key);
@@ -205,7 +207,7 @@ public class JilterConfiguration {
                 String domain = value.substring(pos+1);
 
                 Set<String> addresses = domainAddresses.get(domain);
-                if(addresses==null) domainAddresses.put(domain, addresses = new HashSet<String>());
+                if(addresses==null) domainAddresses.put(domain, addresses = new HashSet<>());
                 addresses.add(address);
             } else if(key.startsWith("ips.")) {
                 // ips
@@ -231,9 +233,7 @@ public class JilterConfiguration {
                     float rate = Float.parseFloat(value.substring(pos2+1));
                     emailInLimits.put(name, new EmailLimit(burst, rate));
                 } catch(NumberFormatException err) {
-                    IOException ioErr = new IOException("Unable to parse emailInLimits: "+value);
-                    ioErr.initCause(err);
-                    throw ioErr;
+                    throw new IOException("Unable to parse emailInLimits: "+value, err);
                 }
             } else if(key.startsWith("emailOutLimits.")) {
                 // emailOutLimits
@@ -247,9 +247,7 @@ public class JilterConfiguration {
                     float rate = Float.parseFloat(value.substring(pos2+1));
                     emailOutLimits.put(name, new EmailLimit(burst, rate));
                 } catch(NumberFormatException err) {
-                    IOException ioErr = new IOException("Unable to parse emailOutLimits: "+value);
-                    ioErr.initCause(err);
-                    throw ioErr;
+                    throw new IOException("Unable to parse emailOutLimits: "+value, err);
                 }
             } else if(key.startsWith("emailRelayLimits.")) {
                 // emailRelayLimits
@@ -263,9 +261,7 @@ public class JilterConfiguration {
                     float rate = Float.parseFloat(value.substring(pos2+1));
                     emailRelayLimits.put(name, new EmailLimit(burst, rate));
                 } catch(NumberFormatException err) {
-                    IOException ioErr = new IOException("Unable to parse emailRelayLimits: "+value);
-                    ioErr.initCause(err);
-                    throw ioErr;
+                    throw new IOException("Unable to parse emailRelayLimits: "+value, err);
                 }
             }
         }
@@ -297,7 +293,7 @@ public class JilterConfiguration {
         if(!matches) {
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             try {
-                Properties props = new Properties();
+                Properties props = new SortedProperties();
 
                 // VERSION
                 props.setProperty("version", VERSION_3);
