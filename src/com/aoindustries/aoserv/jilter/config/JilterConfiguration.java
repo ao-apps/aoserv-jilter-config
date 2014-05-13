@@ -1,10 +1,11 @@
 /*
- * Copyright 2007-2013 by AO Industries, Inc.,
+ * Copyright 2007-2013, 2014 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
 package com.aoindustries.aoserv.jilter.config;
 
+import com.aoindustries.io.FileUtils;
 import com.aoindustries.util.SortedProperties;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -384,7 +385,7 @@ public class JilterConfiguration {
             } finally {
                 fileOut.close();
             }
-            if(!newPropsUF.renameTo(propsUF)) throw new IOException("Unable to rename "+newPropsUF.getPath()+" to "+propsUF.getPath());
+			FileUtils.rename(newPropsUF, propsUF);
         }
     }
 
