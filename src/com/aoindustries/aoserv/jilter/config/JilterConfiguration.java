@@ -1,15 +1,15 @@
 /*
- * Copyright 2007-2013, 2014 by AO Industries, Inc.,
+ * Copyright 2007-2013, 2014, 2015 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
 package com.aoindustries.aoserv.jilter.config;
 
 import com.aoindustries.io.FileUtils;
+import com.aoindustries.util.PropertiesUtils;
 import com.aoindustries.util.SortedProperties;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
@@ -139,10 +139,7 @@ public class JilterConfiguration {
      * @see  #getJilterConfiguration
      */
     private JilterConfiguration() throws IOException {
-        Properties props = new Properties();
-        try (FileInputStream in = new FileInputStream(PROPS_FILE)) {
-            props.load(in);
-        }
+        Properties props = PropertiesUtils.loadFromFile(propsUF);
         
         // Make sure the version matches, throw IOException if doesn't
         final String businessesKey;
