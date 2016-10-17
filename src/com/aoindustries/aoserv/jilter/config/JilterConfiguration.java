@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2013, 2014, 2015 by AO Industries, Inc.,
+ * Copyright 2007-2013, 2014, 2015, 2016 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * In order to avoid a real-time dependency between the Jilter code and the full
- * AOServ system, the configuration values for the jilter is placed into a
+ * AOServ Platform, the configuration values for the jilter is placed into a
  * properties file that is stored in
  * <code>/etc/opt/aoserv-jilter/aoserv-jilter.properties</code>.  The
  * <code>aoserv-daemon</code> will rebuild this file when any of its related
