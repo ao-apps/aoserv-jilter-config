@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2013, 2014, 2015, 2016 by AO Industries, Inc.,
+ * Copyright 2007-2013, 2014, 2015, 2016, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -7,7 +7,6 @@ package com.aoindustries.aoserv.jilter.config;
 
 import com.aoindustries.io.FileUtils;
 import com.aoindustries.util.PropertiesUtils;
-import com.aoindustries.util.SortedProperties;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -291,7 +290,8 @@ public class JilterConfiguration {
         if(!matches) {
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             try {
-                Properties props = new SortedProperties();
+				@SuppressWarnings("deprecation")
+                Properties props = new com.aoindustries.collections.SortedProperties();
 
                 // VERSION
                 props.setProperty("version", VERSION_3);
