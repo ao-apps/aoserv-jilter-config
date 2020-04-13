@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2011 by AO Industries, Inc.,
+ * Copyright 2007-2011, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -23,10 +23,12 @@ public class EmailLimit {
         this.rate = rate;
     }
     
+	@Override
     public int hashCode() {
         return burst ^ Float.floatToRawIntBits(rate);
     }
     
+	@Override
     public boolean equals(Object O) {
         if(O==null) return false;
         if(!(O instanceof EmailLimit)) return false;

@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author  AO Industries, Inc.
  */
+@SuppressWarnings("overrides") // We will not implement hashCode, despite having equals
 public class JilterConfiguration {
 
 	/**
@@ -637,22 +638,20 @@ public class JilterConfiguration {
 
     /**
      * Compares two maps and makes sure they exactly match, including all their mapped sets.
-     *
-     * TODO: This should be able to accept a Set&lt;?&gt; instead of Set&lt;String&gt;, but won't compile in Java 1.5.0_07.
      */
-    public static boolean equalsMapSetString(Map<?,Set<String>> map1, Map<?,Set<String>> map2) {
+    public static boolean equalsMapSetString(Map<?,? extends Set<?>> map1, Map<?,? extends Set<?>> map2) {
         // Make sure the key sets match
         Set<?> keySet1 = map1.keySet();
         Set<?> keySet2 = map2.keySet();
         if(!equals(keySet1, keySet2)) {
-            if(log.isTraceEnabled()) log.trace("equals(Map<?,Set<String>> map1, Map<?,Set<String>> map2): keySet1 != keySet2");
+            if(log.isTraceEnabled()) log.trace("equals(Map<?,? extends Set<?>> map1, Map<?,? extends Set<?>> map2): keySet1 != keySet2");
             return false;
         }
 
         // Now make sure each of the mapped sets match
         for(Object key : keySet1) {
             if(!equals(map1.get(key), map2.get(key))) {
-                if(log.isTraceEnabled()) log.trace("equals(Map<?,Set<String>> map1, Map<?,Set<String>> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
+                if(log.isTraceEnabled()) log.trace("equals(Map<?,? extends Set<?>> map1, Map<?,? extends Set<?>> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
                 return false;
             }
         }
