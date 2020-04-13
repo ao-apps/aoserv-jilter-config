@@ -394,21 +394,23 @@ public class JilterConfiguration {
     }
 
     /**
-     * @see  AOServer#getNetBinds(Protocol.MILTER)
+     * @see  com.aoindustries.aoserv.client.net.Host#getNetBinds(com.aoindustries.aoserv.client.net.AppProtocol)
+     * @see  com.aoindustries.aoserv.client.net.AppProtocol#MILTER
      */
     public String getListenIP() {
         return listenIP;
     }
 
     /**
-     * @see  AOServer#getNetBinds(Protocol.MILTER)
+     * @see  com.aoindustries.aoserv.client.net.Host#getNetBinds(com.aoindustries.aoserv.client.net.AppProtocol)
+     * @see  com.aoindustries.aoserv.client.net.AppProtocol#MILTER
      */
     public int getListenPort() {
         return listenPort;
     }
 
 	/**
-     * @see  AOServer#getRestrictOutboundEmail()
+     * @see  com.aoindustries.aoserv.client.linux.Server#getRestrictOutboundEmail()
      */
     public boolean getRestrictOutboundEmail() {
         return restrict_outbound_email;
@@ -636,7 +638,7 @@ public class JilterConfiguration {
     /**
      * Compares two maps and makes sure they exactly match, including all their mapped sets.
      *
-     * Note: This should be able to accept a Set<?> instead of Set<String>, but won't compile in Java 1.5.0_07.
+     * TODO: This should be able to accept a Set&lt;?&gt; instead of Set&lt;String&gt;, but won't compile in Java 1.5.0_07.
      */
     public static boolean equalsMapSetString(Map<?,Set<String>> map1, Map<?,Set<String>> map2) {
         // Make sure the key sets match

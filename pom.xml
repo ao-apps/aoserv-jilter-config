@@ -71,7 +71,18 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 								<link>https://aoindustries.com/ao-collections/apidocs/</link>
 								<link>https://aoindustries.com/ao-lang/apidocs/</link>
 								<link>https://commons.apache.org/proper/commons-logging/apidocs/</link>
+								<!-- Javadoc-only -->
+								<link>https://aoindustries.com/aocode-public/apidocs/</link>
+								<link>https://aoindustries.com/aoserv/client/apidocs/</link>
 							</links>
+							<additionalDependencies>
+								<additionalDependency>
+									<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.0.0${POST-SNAPSHOT}</version>
+								</additionalDependency>
+								<additionalDependency>
+									<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.1${POST-SNAPSHOT}</version>
+								</additionalDependency>
+							</additionalDependencies>
 						</configuration>
 					</plugin>
 				</plugins>
