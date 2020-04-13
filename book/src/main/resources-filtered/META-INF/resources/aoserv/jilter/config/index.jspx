@@ -48,7 +48,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 			/>
 		</header>
 		<p>
-			Configuration API for <core:link book="/" page="/aoserv/jilter/index.jspx" />.
+			Configuration API for <core:link book="/aoserv/jilter" page="/index.jspx" />.
 		</p>
 		<section:nav label="Project Links">
 			<ul>
