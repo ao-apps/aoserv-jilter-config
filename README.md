@@ -1,4 +1,4 @@
-# [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://github.com/aoindustries) [AOServ](https://aoindustries.com/aoserv/) / [Jilter](https://aoindustries.com/aoserv/jilter/) / [Config](https://github.com/aoindustries/aoserv-jilter-config)
+# [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://github.com/aoindustries) [AOServ](https://aoindustries.com/aoserv/) / [Jilter](https://github.com/aoindustries/aoserv-jilter) / [Config](https://github.com/aoindustries/aoserv-jilter-config)
 <p>
 	<a href="https://aoindustries.com/life-cycle#project-current-stable">
 		<img src="https://aoindustries.com/ao-badges/project-current-stable.svg" alt="project: current stable" />
@@ -18,7 +18,7 @@
 	</a>
 </p>
 
-Configuration API for [AOServ Jilter](https://aoindustries.com/aoserv/jilter/).
+Configuration API for [AOServ Jilter](https://github.com/aoindustries/aoserv-jilter).
 
 ## Project Links
 * [Project Home](https://aoindustries.com/aoserv/jilter/config/)
