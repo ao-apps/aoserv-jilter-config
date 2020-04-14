@@ -408,7 +408,7 @@ public class JilterConfiguration {
      * Gets the version of this file this was loaded from.
      */
     public String getVersion() {
-        return getVersion();
+		return version;
     }
 
     /**
