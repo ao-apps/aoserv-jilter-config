@@ -64,13 +64,40 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
+						<dependencies>
+							<dependency>
+								<groupId>com.aoindustries</groupId><artifactId>ao-javadoc-offline</artifactId><version>1.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+							</dependency>
+							<!-- Javadoc-only -->
+							<dependency>
+								<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.1.0${POST-SNAPSHOT}</version>
+							</dependency>
+							<dependency>
+								<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.5-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+							</dependency>
+						</dependencies>
 						<executions>
 							<execution>
-								<id>unpack.offlinkLinks</id>
-								<phase>generate-sources</phase>
-								<goals><goal>unpack</goal></goals>
+								<id>unpack.offlinkLinks</id><phase>generate-sources</phase><goals><goal>unpack</goal></goals>
 								<configuration>
+									<silent>true</silent>
 									<artifactItems>
+										<artifactItem>
+											<groupId>com.aoindustries</groupId><artifactId>ao-javadoc-offline</artifactId><version>1.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+											<includes>**/element-list, **/package-list</includes>
+											<outputDirectory>${project.build.directory}/offlineLinks</outputDirectory>
+										</artifactItem>
+										<!-- Javadoc-only -->
+										<artifactItem>
+											<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.1.0${POST-SNAPSHOT}</version>
+											<classifier>javadoc</classifier><includes>element-list, package-list</includes>
+											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/aocode-public</outputDirectory>
+										</artifactItem>
+										<artifactItem>
+											<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.5-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+											<classifier>javadoc</classifier><includes>element-list, package-list</includes>
+											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/aoserv-client</outputDirectory>
+										</artifactItem>
 										<!-- Direct -->
 										<artifactItem>
 											<groupId>com.aoindustries</groupId><artifactId>ao-collections</artifactId>
@@ -87,17 +114,6 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 											<classifier>javadoc</classifier><includes>element-list, package-list</includes>
 											<outputDirectory>${project.build.directory}/offlineLinks/commons-logging/commons-logging</outputDirectory>
 										</artifactItem>
-										<!-- Javadoc-only -->
-										<artifactItem>
-											<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.1.0${POST-SNAPSHOT}</version>
-											<classifier>javadoc</classifier><includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/aocode-public</outputDirectory>
-										</artifactItem>
-										<artifactItem>
-											<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.5-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
-											<classifier>javadoc</classifier><includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/aoserv-client</outputDirectory>
-										</artifactItem>
 									</artifactItems>
 								</configuration>
 							</execution>
@@ -106,17 +122,29 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
-							<links>
-								<link>${javadoc.link.javase}</link>
-								<!-- Direct -->
-								<!-- offlineLink: <groupId>com.aoindustries</groupId><artifactId>ao-collections</artifactId> -->
-								<!-- offlineLink: <groupId>com.aoindustries</groupId><artifactId>ao-lang</artifactId> -->
-								<!-- offlineLink: <groupId>commons-logging</groupId><artifactId>commons-logging</artifactId> -->
+							<additionalDependencies>
 								<!-- Javadoc-only -->
-								<!-- offlineLink: <groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId> -->
-								<!-- offlineLink: <groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId> -->
-							</links>
+								<additionalDependency>
+									<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.1.0${POST-SNAPSHOT}</version>
+								</additionalDependency>
+								<additionalDependency>
+									<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.5-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+								</additionalDependency>
+							</additionalDependencies>
 							<offlineLinks>
+								<offlineLink>
+									<url>${javadoc.link.javase}</url>
+									<location>${project.build.directory}/offlineLinks/com/aoindustries/javadoc/offline/javase/${javase.release}</location>
+								</offlineLink>
+								<!-- Javadoc-only -->
+								<offlineLink>
+									<url>https://aoindustries.com/aocode-public/apidocs/</url>
+									<location>${project.build.directory}/offlineLinks/com.aoindustries/aocode-public</location>
+								</offlineLink>
+								<offlineLink>
+									<url>https://aoindustries.com/aoserv/client/apidocs/</url>
+									<location>${project.build.directory}/offlineLinks/com.aoindustries/aoserv-client</location>
+								</offlineLink>
 								<!-- Direct -->
 								<offlineLink>
 									<url>https://aoindustries.com/ao-collections/apidocs/</url>
@@ -130,24 +158,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 									<url>https://commons.apache.org/proper/commons-logging/apidocs/</url>
 									<location>${project.build.directory}/offlineLinks/commons-logging/commons-logging</location>
 								</offlineLink>
-								<!-- Javadoc-only -->
-								<offlineLink>
-									<url>https://aoindustries.com/aocode-public/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoindustries/aocode-public</location>
-								</offlineLink>
-								<offlineLink>
-									<url>https://aoindustries.com/aoserv/client/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoindustries/aoserv-client</location>
-								</offlineLink>
 							</offlineLinks>
-							<additionalDependencies>
-								<additionalDependency>
-									<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.1.0${POST-SNAPSHOT}</version>
-								</additionalDependency>
-								<additionalDependency>
-									<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.5-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
-								</additionalDependency>
-							</additionalDependencies>
 						</configuration>
 					</plugin>
 				</plugins>
