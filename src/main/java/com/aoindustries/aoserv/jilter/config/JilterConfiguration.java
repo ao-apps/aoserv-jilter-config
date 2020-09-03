@@ -51,7 +51,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author  AO Industries, Inc.
  */
-@SuppressWarnings("overrides") // We will not implement hashCode, despite having equals
+@SuppressWarnings({"overrides", "EqualsAndHashcode"}) // We will not implement hashCode, despite having equals
 public class JilterConfiguration {
 
 	/**
@@ -213,7 +213,7 @@ public class JilterConfiguration {
                 String domain = value.substring(pos+1);
                 domainBusinesses.put(domain, accounting);
                 // Add to domainAddresses just in case the domain has no addresses
-                if(!domainAddresses.containsKey(domain)) domainAddresses.put(domain, new HashSet<String>());
+                if(!domainAddresses.containsKey(domain)) domainAddresses.put(domain, new HashSet<>());
             } else if(key.startsWith("addresses.")) {
                 // domainAddresses
                 int pos = value.indexOf('@');
