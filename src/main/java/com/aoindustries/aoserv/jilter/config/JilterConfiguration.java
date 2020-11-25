@@ -183,7 +183,7 @@ public class JilterConfiguration {
 		}
 
 		// restrict_outbound_email
-		restrict_outbound_email = "true".equals(props.getProperty("restrict_outbound_email"));
+		restrict_outbound_email = Boolean.parseBoolean(props.getProperty("restrict_outbound_email"));
 
 		// Email settings
 		smtpServer = props.getProperty("smtp.server");
