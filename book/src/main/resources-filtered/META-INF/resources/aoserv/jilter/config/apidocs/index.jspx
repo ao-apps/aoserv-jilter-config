@@ -35,7 +35,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 		<ao:forward page="index.html" />
 	</c:if>
 	<core:page
-		title="@{documented.name} @{com.aoindustries:aoserv-jilter-config:pom.version} API Docs"
+		title="@{documented.name} ${ao:getProjectVersion('./', 'com.aoindustries', 'aoserv-jilter-config', '¿@{project.version}?')} API Docs"
 		shortTitle="API Docs"
 		datePublished="2020-04-12T23:41:49-05:00"
 		dateModified="${ao:getLastModified('index.html')}"
