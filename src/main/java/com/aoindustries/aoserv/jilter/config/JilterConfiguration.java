@@ -1,6 +1,6 @@
 /*
  * aoserv-jilter-config - Configuration API for AOServ Jilter.
- * Copyright (C) 2007-2013, 2014, 2015, 2016, 2020  AO Industries, Inc.
+ * Copyright (C) 2007-2013, 2014, 2015, 2016, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -321,7 +321,7 @@ public class JilterConfiguration {
 				props.setProperty("listenPort", Integer.toString(listenPort));
 
 				// restrict_outbound_email
-				props.setProperty("restrict_outbound_email", restrict_outbound_email ? "true" : "false");
+				props.setProperty("restrict_outbound_email", Boolean.toString(restrict_outbound_email));
 
 				// Email settings
 				if(smtpServer!=null) props.setProperty("smtp.server", smtpServer);
