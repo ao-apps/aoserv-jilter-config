@@ -101,15 +101,15 @@ public class JilterConfiguration {
 	final private String emailSummaryTo;
 	final private String emailFullFrom;
 	final private String emailFullTo;
-	final private Map<String,String> domainBusinesses;
-	final private Map<String,Set<String>> domainAddresses;
+	final private Map<String, String> domainBusinesses;
+	final private Map<String, Set<String>> domainAddresses;
 	final private Set<String> ips;
 	final private Set<String> denies;
 	final private Set<String> denySpams;
 	final private Set<String> allowRelays;
-	final private Map<String,EmailLimit> emailInLimits;
-	final private Map<String,EmailLimit> emailOutLimits;
-	final private Map<String,EmailLimit> emailRelayLimits;
+	final private Map<String, EmailLimit> emailInLimits;
+	final private Map<String, EmailLimit> emailOutLimits;
+	final private Map<String, EmailLimit> emailRelayLimits;
 
 	public JilterConfiguration(
 		String listenIP,
@@ -120,15 +120,15 @@ public class JilterConfiguration {
 		String emailSummaryTo,
 		String emailFullFrom,
 		String emailFullTo,
-		Map<String,String> domainBusinesses,
-		Map<String,Set<String>> domainAddresses,
+		Map<String, String> domainBusinesses,
+		Map<String, Set<String>> domainAddresses,
 		Set<String> ips,
 		Set<String> denies,
 		Set<String> denySpams,
 		Set<String> allowRelays,
-		Map<String,EmailLimit> emailInLimits,
-		Map<String,EmailLimit> emailOutLimits,
-		Map<String,EmailLimit> emailRelayLimits
+		Map<String, EmailLimit> emailInLimits,
+		Map<String, EmailLimit> emailOutLimits,
+		Map<String, EmailLimit> emailRelayLimits
 	) {
 		this.version = VERSION_3;
 		this.listenIP = listenIP;
@@ -281,7 +281,7 @@ public class JilterConfiguration {
 			}
 		}
 		// Make all domainAddresses lists unmodifiable
-		for(Map.Entry<String,Set<String>> entry : domainAddresses.entrySet()) {
+		for(Map.Entry<String, Set<String>> entry : domainAddresses.entrySet()) {
 			entry.setValue(Collections.unmodifiableSet(entry.getValue()));
 		}
 	}
@@ -656,19 +656,19 @@ public class JilterConfiguration {
 	/**
 	 * Compares two maps and makes sure they exactly match, including all their mapped sets.
 	 */
-	public static boolean equalsMapSetString(Map<?,? extends Set<?>> map1, Map<?,? extends Set<?>> map2) {
+	public static boolean equalsMapSetString(Map<?, ? extends Set<?>> map1, Map<?, ? extends Set<?>> map2) {
 		// Make sure the key sets match
 		Set<?> keySet1 = map1.keySet();
 		Set<?> keySet2 = map2.keySet();
 		if(!equals(keySet1, keySet2)) {
-			if(log.isTraceEnabled()) log.trace("equals(Map<?,? extends Set<?>> map1, Map<?,? extends Set<?>> map2): keySet1 != keySet2");
+			if(log.isTraceEnabled()) log.trace("equals(Map<?, ? extends Set<?>> map1, Map<?, ? extends Set<?>> map2): keySet1 != keySet2");
 			return false;
 		}
 
 		// Now make sure each of the mapped sets match
 		for(Object key : keySet1) {
 			if(!equals(map1.get(key), map2.get(key))) {
-				if(log.isTraceEnabled()) log.trace("equals(Map<?,? extends Set<?>> map1, Map<?,? extends Set<?>> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
+				if(log.isTraceEnabled()) log.trace("equals(Map<?, ? extends Set<?>> map1, Map<?, ? extends Set<?>> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
 				return false;
 			}
 		}
@@ -679,19 +679,19 @@ public class JilterConfiguration {
 	/**
 	 * Compares two maps and makes sure they exactly match, including all their values.
 	 */
-	public static boolean equalsMap(Map<?,?> map1, Map<?,?> map2) {
+	public static boolean equalsMap(Map<?, ?> map1, Map<?, ?> map2) {
 		// Make sure the key sets match
 		Set<?> keySet1 = map1.keySet();
 		Set<?> keySet2 = map2.keySet();
 		if(!equals(keySet1, keySet2)) {
-			if(log.isTraceEnabled()) log.trace("equals(Map<?,?> map1, Map<?,?> map2): keySet1 != keySet2");
+			if(log.isTraceEnabled()) log.trace("equals(Map<?, ?> map1, Map<?, ?> map2): keySet1 != keySet2");
 			return false;
 		}
 
 		// Now make sure each of the mapped email limits match
 		for(Object key : keySet1) {
 			if(!map1.get(key).equals(map2.get(key))) {
-				if(log.isTraceEnabled()) log.trace("equals(Map<?,?> map1, Map<?,?> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
+				if(log.isTraceEnabled()) log.trace("equals(Map<?, ?> map1, Map<?, ?> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
 				return false;
 			}
 		}
