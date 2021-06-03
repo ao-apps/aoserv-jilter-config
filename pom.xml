@@ -25,8 +25,8 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.aoindustries</groupId><artifactId>ao-oss-parent</artifactId><version>1.16.0-SNAPSHOT</version>
-		<relativePath>../../ao-oss-parent/pom.xml</relativePath>
+		<groupId>com.aoapps</groupId><artifactId>ao-oss-parent</artifactId><version>1.16.0-SNAPSHOT</version>
+		<relativePath>../../oss/parent/pom.xml</relativePath>
 	</parent>
 
 	<groupId>com.aoindustries</groupId><artifactId>aoserv-jilter-config</artifactId><version>1.84.22-SNAPSHOT</version>
@@ -42,9 +42,10 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 
 		<javadoc.breadcrumbs><![CDATA[<a target="${javadoc.target}" href="https://aoindustries.com/aoserv/">AOServ</a>
 / <a target="${javadoc.target}" href="https://aoindustries.com/aoserv/jilter/">Jilter</a>
-/ <a target="${javadoc.target}" href="${project.url}">${shortTitle}</a>]]></javadoc.breadcrumbs>
-		<shortTitle>Config</shortTitle>
+/ <a target="${javadoc.target}" href="${project.url}">Config</a>]]></javadoc.breadcrumbs>
 		<description.html><![CDATA[Configuration API for <a target="${javadoc.target}" href="https://aoindustries.com/aoserv/jilter/">AOServ Jilter</a>.]]></description.html>
+		<!-- TODO: Remove once moved to oss.aoapps.com -->
+		<google.analytics.trackingId>UA-86871646-1</google.analytics.trackingId>
 	</properties>
 
 	<name>AOServ Jilter Config</name>
@@ -87,6 +88,21 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 		<url>https://github.com/aoindustries/aoserv-jilter-config/issues</url>
 	</issueManagement>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh-aoindustries</id>
+			<name>ossrh-aoindustries</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<!-- Unused for Nexus plugin
+		<repository>
+			<id>ossrh-aoindustries</id>
+			<name>ossrh-aoindustries</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		-->
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -95,7 +111,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 					<additionalDependencies>
 						<!-- Javadoc-only -->
 						<additionalDependency>
-							<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.9.2-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+							<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>4.9.2-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 						</additionalDependency>
 						<additionalDependency>
 							<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.22-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
@@ -116,7 +132,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 						<dependencies>
 							<!-- Javadoc-only -->
 							<dependency>
-								<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.9.2-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+								<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>4.9.2-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 							</dependency>
 							<dependency>
 								<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.22-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
@@ -129,9 +145,9 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 									<artifactItems>
 										<!-- Javadoc-only -->
 										<artifactItem>
-											<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.9.2-SNAPSHOT</version><classifier>javadoc</classifier>
+											<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>4.9.2-SNAPSHOT</version><classifier>javadoc</classifier>
 											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/aocode-public</outputDirectory>
+											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-hodgepodge</outputDirectory>
 										</artifactItem>
 										<artifactItem>
 											<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.22-SNAPSHOT</version><classifier>javadoc</classifier>
@@ -140,14 +156,14 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 										</artifactItem>
 										<!-- Direct -->
 										<artifactItem>
-											<groupId>com.aoindustries</groupId><artifactId>ao-collections</artifactId><classifier>javadoc</classifier>
+											<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><classifier>javadoc</classifier>
 											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/ao-collections</outputDirectory>
+											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-collections</outputDirectory>
 										</artifactItem>
 										<artifactItem>
-											<groupId>com.aoindustries</groupId><artifactId>ao-lang</artifactId><classifier>javadoc</classifier>
+											<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId><classifier>javadoc</classifier>
 											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoindustries/ao-lang</outputDirectory>
+											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-lang</outputDirectory>
 										</artifactItem>
 										<artifactItem>
 											<groupId>commons-logging</groupId><artifactId>commons-logging</artifactId><classifier>javadoc</classifier>
@@ -165,8 +181,8 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 							<offlineLinks>
 								<!-- Javadoc-only -->
 								<offlineLink>
-									<url>https://aoindustries.com/aocode-public/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoindustries/aocode-public</location>
+									<url>https://oss.aoapps.com/hodgepodge/apidocs/</url>
+									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-hodgepodge</location>
 								</offlineLink>
 								<offlineLink>
 									<url>https://aoindustries.com/aoserv/client/apidocs/</url>
@@ -174,12 +190,12 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 								</offlineLink>
 								<!-- Direct -->
 								<offlineLink>
-									<url>https://aoindustries.com/ao-collections/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoindustries/ao-collections</location>
+									<url>https://oss.aoapps.com/collections/apidocs/</url>
+									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-collections</location>
 								</offlineLink>
 								<offlineLink>
-									<url>https://aoindustries.com/ao-lang/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoindustries/ao-lang</location>
+									<url>https://oss.aoapps.com/lang/apidocs/</url>
+									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-lang</location>
 								</offlineLink>
 								<offlineLink>
 									<url>https://commons.apache.org/proper/commons-logging/apidocs/</url>
@@ -188,7 +204,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 								<!-- Java SE -->
 								<offlineLink>
 									<url>${javadoc.link.javase}</url>
-									<location>${project.build.directory}/offlineLinks/com/aoindustries/javadoc/offline/javase/${javase.release}</location>
+									<location>${project.build.directory}/offlineLinks/com/aoapps/javadoc/offline/javase/${javase.release}</location>
 								</offlineLink>
 							</offlineLinks>
 						</configuration>
@@ -202,10 +218,10 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 		<dependencies>
 			<!-- Direct -->
 			<dependency>
-				<groupId>com.aoindustries</groupId><artifactId>ao-collections</artifactId><version>1.2.1-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+				<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>1.2.1-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 			</dependency>
 			<dependency>
-				<groupId>com.aoindustries</groupId><artifactId>ao-lang</artifactId><version>4.17.1-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+				<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId><version>4.17.1-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId><artifactId>commons-logging</artifactId><version>1.2</version>
@@ -216,10 +232,10 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 	<dependencies>
 		<!-- Direct -->
 		<dependency>
-			<groupId>com.aoindustries</groupId><artifactId>ao-collections</artifactId>
+			<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.aoindustries</groupId><artifactId>ao-lang</artifactId>
+			<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId><artifactId>commons-logging</artifactId>
