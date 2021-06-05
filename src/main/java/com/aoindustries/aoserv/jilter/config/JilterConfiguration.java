@@ -22,8 +22,8 @@
  */
 package com.aoindustries.aoserv.jilter.config;
 
-import com.aoindustries.io.FileUtils;
-import com.aoindustries.util.PropertiesUtils;
+import com.aoapps.lang.io.FileUtils;
+import com.aoapps.lang.util.PropertiesUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -309,7 +309,7 @@ public class JilterConfiguration {
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 			try {
 				@SuppressWarnings("deprecation")
-				Properties props = new com.aoindustries.collections.SortedProperties();
+				Properties props = new com.aoapps.collections.SortedProperties();
 
 				// VERSION
 				props.setProperty("version", VERSION_3);

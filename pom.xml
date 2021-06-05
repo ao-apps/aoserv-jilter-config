@@ -111,7 +111,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 					<additionalDependencies>
 						<!-- Javadoc-only -->
 						<additionalDependency>
-							<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>4.9.2-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+							<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>5.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 						</additionalDependency>
 						<additionalDependency>
 							<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.22-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
@@ -132,7 +132,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 						<dependencies>
 							<!-- Javadoc-only -->
 							<dependency>
-								<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>4.9.2-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+								<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>5.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 							</dependency>
 							<dependency>
 								<groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId><version>1.84.22-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
@@ -145,7 +145,7 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 									<artifactItems>
 										<!-- Javadoc-only -->
 										<artifactItem>
-											<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>4.9.2-SNAPSHOT</version><classifier>javadoc</classifier>
+											<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>5.0.0-SNAPSHOT</version><classifier>javadoc</classifier>
 											<includes>element-list, package-list</includes>
 											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-hodgepodge</outputDirectory>
 										</artifactItem>
@@ -218,10 +218,10 @@ along with aoserv-jilter-config.  If not, see <http://www.gnu.org/licenses />.
 		<dependencies>
 			<!-- Direct -->
 			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>1.2.1-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+				<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>2.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 			</dependency>
 			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId><version>4.17.1-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+				<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId><version>5.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId><artifactId>commons-logging</artifactId><version>1.2</version>
