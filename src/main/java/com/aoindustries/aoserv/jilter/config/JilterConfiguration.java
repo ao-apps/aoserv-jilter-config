@@ -83,7 +83,7 @@ public class JilterConfiguration {
 	 * Gets the current configuration.  If the file has been updated, will reload the configuration
 	 * from disk.
 	 */
-	public synchronized static JilterConfiguration getJilterConfiguration() throws IOException {
+	public static synchronized JilterConfiguration getJilterConfiguration() throws IOException {
 		long modifyTime = propsUF.lastModified();
 		if(jilterConfiguration==null || modifyTime!=lastModifiedTime) {
 			jilterConfiguration = new JilterConfiguration();
@@ -92,24 +92,24 @@ public class JilterConfiguration {
 		return jilterConfiguration;
 	}
 
-	final private String version;
-	final private String listenIP;
-	final private int listenPort;
-	final private boolean restrict_outbound_email;
-	final private String smtpServer;
-	final private String emailSummaryFrom;
-	final private String emailSummaryTo;
-	final private String emailFullFrom;
-	final private String emailFullTo;
-	final private Map<String, String> domainBusinesses;
-	final private Map<String, Set<String>> domainAddresses;
-	final private Set<String> ips;
-	final private Set<String> denies;
-	final private Set<String> denySpams;
-	final private Set<String> allowRelays;
-	final private Map<String, EmailLimit> emailInLimits;
-	final private Map<String, EmailLimit> emailOutLimits;
-	final private Map<String, EmailLimit> emailRelayLimits;
+	private final String version;
+	private final String listenIP;
+	private final int listenPort;
+	private final boolean restrict_outbound_email;
+	private final String smtpServer;
+	private final String emailSummaryFrom;
+	private final String emailSummaryTo;
+	private final String emailFullFrom;
+	private final String emailFullTo;
+	private final Map<String, String> domainBusinesses;
+	private final Map<String, Set<String>> domainAddresses;
+	private final Set<String> ips;
+	private final Set<String> denies;
+	private final Set<String> denySpams;
+	private final Set<String> allowRelays;
+	private final Map<String, EmailLimit> emailInLimits;
+	private final Map<String, EmailLimit> emailOutLimits;
+	private final Map<String, EmailLimit> emailRelayLimits;
 
 	public JilterConfiguration(
 		String listenIP,

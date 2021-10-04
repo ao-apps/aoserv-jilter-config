@@ -1,6 +1,6 @@
 /*
  * aoserv-jilter-config - Configuration API for AOServ Jilter.
- * Copyright (C) 2007-2011, 2020  AO Industries, Inc.
+ * Copyright (C) 2007-2011, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -29,8 +29,8 @@ package com.aoindustries.aoserv.jilter.config;
  */
 public class EmailLimit {
 
-	final private int burst;
-	final private float rate;
+	private final int burst;
+	private final float rate;
 
 	public EmailLimit(int burst, float rate) {
 		if(burst<=0) throw new IllegalArgumentException("Invalid burst, must be > 0: "+burst);
