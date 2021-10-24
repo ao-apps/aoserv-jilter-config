@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.commons.logging.Log;
@@ -173,7 +174,7 @@ public class JilterConfiguration {
 
 		// listenPort
 		try {
-			listenPort = 
+			listenPort =
 				VERSION_1.equals(version) || VERSION_2.equals(version)
 				? DEFAULT_MILTER_PORT
 				: Integer.parseInt(props.getProperty("listenPort"))
@@ -201,9 +202,9 @@ public class JilterConfiguration {
 		emailInLimits = new HashMap<>();
 		emailOutLimits = new HashMap<>();
 		emailRelayLimits = new HashMap<>();
-		Enumeration<?> E = props.propertyNames();
-		while(E.hasMoreElements()) {
-			String key = (String)E.nextElement();
+		Enumeration<?> e = props.propertyNames();
+		while(e.hasMoreElements()) {
+			String key = (String)e.nextElement();
 			String value = props.getProperty(key);
 			if(key.startsWith(businessesKey+".")) {
 				// domainBusinesses
@@ -534,18 +535,18 @@ public class JilterConfiguration {
 	}
 
 	@Override
-	public boolean equals(Object O) {
-		if(O==null) {
-			log.trace("equals(Object O): O == null, returning false");
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			log.trace("equals(Object obj): obj == null, returning false");
 			return false;
 		}
 
-		if(!(O instanceof JilterConfiguration)) {
-			log.trace("equals(Object O): !(O instanceof JilterConfiguration), returning false");
+		if(!(obj instanceof JilterConfiguration)) {
+			log.trace("equals(Object obj): !(obj instanceof JilterConfiguration), returning false");
 			return false;
 		}
 
-		return equals((JilterConfiguration)O);
+		return equals((JilterConfiguration)obj);
 	}
 
 	public boolean equals(JilterConfiguration other) {
@@ -569,27 +570,27 @@ public class JilterConfiguration {
 			return false;
 		}
 
-		if(!equals(smtpServer, other.smtpServer)) {
+		if(!Objects.equals(smtpServer, other.smtpServer)) {
 			log.trace("equals(JilterConfiguration other): smtpServer != other.smtpServer, returning false");
 			return false;
 		}
 
-		if(!equals(emailSummaryFrom, other.emailSummaryFrom)) {
+		if(!Objects.equals(emailSummaryFrom, other.emailSummaryFrom)) {
 			log.trace("equals(JilterConfiguration other): emailSummaryFrom != other.emailSummaryFrom, returning false");
 			return false;
 		}
 
-		if(!equals(emailSummaryTo, other.emailSummaryTo)) {
+		if(!Objects.equals(emailSummaryTo, other.emailSummaryTo)) {
 			log.trace("equals(JilterConfiguration other): emailSummaryTo != other.emailSummaryTo, returning false");
 			return false;
 		}
 
-		if(!equals(emailFullFrom, other.emailFullFrom)) {
+		if(!Objects.equals(emailFullFrom, other.emailFullFrom)) {
 			log.trace("equals(JilterConfiguration other): emailFullFrom != other.emailFullFrom, returning false");
 			return false;
 		}
 
-		if(!equals(emailFullTo, other.emailFullTo)) {
+		if(!Objects.equals(emailFullTo, other.emailFullTo)) {
 			log.trace("equals(JilterConfiguration other): emailFullTo != other.emailFullTo, returning false");
 			return false;
 		}
@@ -701,8 +702,11 @@ public class JilterConfiguration {
 
 	/**
 	 * Compares two objects with <code>null</code> being equal to <code>null</code>.
+	 *
+	 * @deprecated  Please use {@link Objects#equals(java.lang.Object, java.lang.Object)} instead.
 	 */
-	public static boolean equals(Object O1, Object O2) {
-		return O1==null ? O2==null : O1.equals(O2);
+	@Deprecated
+	public static boolean equals(Object o1, Object o2) {
+		return Objects.equals(o1, o2);
 	}
 }
