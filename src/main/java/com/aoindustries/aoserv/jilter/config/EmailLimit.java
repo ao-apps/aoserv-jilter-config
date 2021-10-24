@@ -46,10 +46,9 @@ public class EmailLimit {
 	}
 
 	@Override
-	public boolean equals(Object O) {
-		if(O==null) return false;
-		if(!(O instanceof EmailLimit)) return false;
-		EmailLimit other = (EmailLimit)O;
+	public boolean equals(Object obj) {
+		if(!(obj instanceof EmailLimit)) return false;
+		EmailLimit other = (EmailLimit)obj;
 		return
 			burst == other.burst
 			&& rate == other.rate
