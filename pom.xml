@@ -166,6 +166,13 @@ along with aoserv-jilter-config.  If not, see <https://www.gnu.org/licenses/>.
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId><artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<!-- TODO: Clean-up Checkstyle -->
+					<failOnViolation>false</failOnViolation>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>com.github.spotbugs</groupId><artifactId>spotbugs-maven-plugin</artifactId>
 				<configuration>
 					<!-- TODO: Clean-up SpotBugs -->
