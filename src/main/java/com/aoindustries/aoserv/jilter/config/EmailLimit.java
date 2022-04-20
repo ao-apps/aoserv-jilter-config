@@ -30,37 +30,45 @@ package com.aoindustries.aoserv.jilter.config;
  */
 public class EmailLimit {
 
-	private final int burst;
-	private final float rate;
+  private final int burst;
+  private final float rate;
 
-	public EmailLimit(int burst, float rate) {
-		if(burst<=0) throw new IllegalArgumentException("Invalid burst, must be > 0: "+burst);
-		if(Float.isNaN(rate)) throw new IllegalArgumentException("rate may not be NaN: "+rate);
-		if(rate<=0) throw new IllegalArgumentException("rate must be > 0: "+rate);
-		this.burst = burst;
-		this.rate = rate;
-	}
+  public EmailLimit(int burst, float rate) {
+    if (burst <= 0) {
+      throw new IllegalArgumentException("Invalid burst, must be > 0: "+burst);
+    }
+    if (Float.isNaN(rate)) {
+      throw new IllegalArgumentException("rate may not be NaN: "+rate);
+    }
+    if (rate <= 0) {
+      throw new IllegalArgumentException("rate must be > 0: "+rate);
+    }
+    this.burst = burst;
+    this.rate = rate;
+  }
 
-	@Override
-	public int hashCode() {
-		return burst ^ Float.floatToRawIntBits(rate);
-	}
+  @Override
+  public int hashCode() {
+    return burst ^ Float.floatToRawIntBits(rate);
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof EmailLimit)) return false;
-		EmailLimit other = (EmailLimit)obj;
-		return
-			burst == other.burst
-			&& rate == other.rate
-		;
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof EmailLimit)) {
+      return false;
+    }
+    EmailLimit other = (EmailLimit)obj;
+    return
+      burst == other.burst
+      && rate == other.rate
+    ;
+  }
 
-	public int getBurst() {
-		return burst;
-	}
+  public int getBurst() {
+    return burst;
+  }
 
-	public float getRate() {
-		return rate;
-	}
+  public float getRate() {
+    return rate;
+  }
 }
