@@ -66,9 +66,9 @@ public class JilterConfiguration {
    * incompatible way.  Newer versions of the code may choose to support older formats, but this should
    * not be necessary because the aoserv-daemon will overwrite the config file within a minute of start-up.
    */
-  private static final String VERSION_1="2007-05-13";
-  private static final String VERSION_2="2009-12-15";
-  private static final String VERSION_3="2013-07-13";
+  private static final String VERSION_1 = "2007-05-13";
+  private static final String VERSION_2 = "2009-12-15";
+  private static final String VERSION_3 = "2013-07-13";
 
   public static final String PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties";
   private static final String NEW_PROPS_FILE = "/etc/opt/aoserv-jilter/aoserv-jilter.properties.new";
@@ -114,23 +114,23 @@ public class JilterConfiguration {
   private final Map<String, EmailLimit> emailRelayLimits;
 
   public JilterConfiguration(
-    String listenIP,
-    int listenPort,
-    boolean restrict_outbound_email,
-    String smtpServer,
-    String emailSummaryFrom,
-    String emailSummaryTo,
-    String emailFullFrom,
-    String emailFullTo,
-    Map<String, String> domainBusinesses,
-    Map<String, Set<String>> domainAddresses,
-    Set<String> ips,
-    Set<String> denies,
-    Set<String> denySpams,
-    Set<String> allowRelays,
-    Map<String, EmailLimit> emailInLimits,
-    Map<String, EmailLimit> emailOutLimits,
-    Map<String, EmailLimit> emailRelayLimits
+      String listenIP,
+      int listenPort,
+      boolean restrict_outbound_email,
+      String smtpServer,
+      String emailSummaryFrom,
+      String emailSummaryTo,
+      String emailFullFrom,
+      String emailFullTo,
+      Map<String, String> domainBusinesses,
+      Map<String, Set<String>> domainAddresses,
+      Set<String> ips,
+      Set<String> denies,
+      Set<String> denySpams,
+      Set<String> allowRelays,
+      Map<String, EmailLimit> emailInLimits,
+      Map<String, EmailLimit> emailOutLimits,
+      Map<String, EmailLimit> emailRelayLimits
   ) {
     this.version = VERSION_3;
     this.listenIP = listenIP;
@@ -164,27 +164,27 @@ public class JilterConfiguration {
     final String businessesKey;
     version = props.getProperty("version");
     if (VERSION_1.equals(version)) {
-      businessesKey="domainPackages";
+      businessesKey = "domainPackages";
     } else {
       businessesKey = "domainBusinesses";
     }
 
     // listenIP
     listenIP = props.getProperty(
-      VERSION_1.equals(version) || VERSION_2.equals(version)
-      ? "primaryIP"
-      : "listenIP"
+        VERSION_1.equals(version) || VERSION_2.equals(version)
+            ? "primaryIP"
+            : "listenIP"
     );
 
     // listenPort
     try {
       listenPort =
-        VERSION_1.equals(version) || VERSION_2.equals(version)
-        ? DEFAULT_MILTER_PORT
-        : Integer.parseInt(props.getProperty("listenPort"))
+          VERSION_1.equals(version) || VERSION_2.equals(version)
+              ? DEFAULT_MILTER_PORT
+              : Integer.parseInt(props.getProperty("listenPort"))
       ;
     } catch (NumberFormatException err) {
-      throw new IOException("Unable to parse listenPort: "+props.getProperty("listenPort"), err);
+      throw new IOException("Unable to parse listenPort: " + props.getProperty("listenPort"), err);
     }
 
     // restrict_outbound_email
@@ -208,16 +208,16 @@ public class JilterConfiguration {
     emailRelayLimits = new HashMap<>();
     Enumeration<?> e = props.propertyNames();
     while (e.hasMoreElements()) {
-      String key = (String)e.nextElement();
+      String key = (String) e.nextElement();
       String value = props.getProperty(key);
-      if (key.startsWith(businessesKey+".")) {
+      if (key.startsWith(businessesKey + ".")) {
         // domainBusinesses
         int pos = value.indexOf('|');
         if (pos == -1) {
-          throw new IOException("Unable to parse "+businessesKey+": "+value);
+          throw new IOException("Unable to parse " + businessesKey + ": " + value);
         }
         String accounting = value.substring(0, pos);
-        String domain = value.substring(pos+1);
+        String domain = value.substring(pos + 1);
         domainBusinesses.put(domain, accounting);
         // Add to domainAddresses just in case the domain has no addresses
         if (!domainAddresses.containsKey(domain)) {
@@ -227,10 +227,10 @@ public class JilterConfiguration {
         // domainAddresses
         int pos = value.indexOf('@');
         if (pos == -1) {
-          throw new IOException("Unable to find @ in address: "+value);
+          throw new IOException("Unable to find @ in address: " + value);
         }
         String address = value.substring(0, pos);
-        String domain = value.substring(pos+1);
+        String domain = value.substring(pos + 1);
 
         Set<String> addresses = domainAddresses.get(domain);
         if (addresses == null) {
@@ -253,55 +253,55 @@ public class JilterConfiguration {
         // emailInLimits
         int pos1 = value.indexOf('|');
         if (pos1 == -1) {
-          throw new IOException("Unable to parse emailInLimits: "+value);
+          throw new IOException("Unable to parse emailInLimits: " + value);
         }
-        int pos2 = value.indexOf('|', pos1+1);
+        int pos2 = value.indexOf('|', pos1 + 1);
         if (pos2 == -1) {
-          throw new IOException("Unable to parse emailInLimits: "+value);
+          throw new IOException("Unable to parse emailInLimits: " + value);
         }
         try {
           String name = value.substring(0, pos1);
-          int burst = Integer.parseInt(value.substring(pos1+1, pos2));
-          float rate = Float.parseFloat(value.substring(pos2+1));
+          int burst = Integer.parseInt(value.substring(pos1 + 1, pos2));
+          float rate = Float.parseFloat(value.substring(pos2 + 1));
           emailInLimits.put(name, new EmailLimit(burst, rate));
         } catch (NumberFormatException err) {
-          throw new IOException("Unable to parse emailInLimits: "+value, err);
+          throw new IOException("Unable to parse emailInLimits: " + value, err);
         }
       } else if (key.startsWith("emailOutLimits.")) {
         // emailOutLimits
         int pos1 = value.indexOf('|');
         if (pos1 == -1) {
-          throw new IOException("Unable to parse emailOutLimits: "+value);
+          throw new IOException("Unable to parse emailOutLimits: " + value);
         }
-        int pos2 = value.indexOf('|', pos1+1);
+        int pos2 = value.indexOf('|', pos1 + 1);
         if (pos2 == -1) {
-          throw new IOException("Unable to parse emailOutLimits: "+value);
+          throw new IOException("Unable to parse emailOutLimits: " + value);
         }
         try {
           String name = value.substring(0, pos1);
-          int burst = Integer.parseInt(value.substring(pos1+1, pos2));
-          float rate = Float.parseFloat(value.substring(pos2+1));
+          int burst = Integer.parseInt(value.substring(pos1 + 1, pos2));
+          float rate = Float.parseFloat(value.substring(pos2 + 1));
           emailOutLimits.put(name, new EmailLimit(burst, rate));
         } catch (NumberFormatException err) {
-          throw new IOException("Unable to parse emailOutLimits: "+value, err);
+          throw new IOException("Unable to parse emailOutLimits: " + value, err);
         }
       } else if (key.startsWith("emailRelayLimits.")) {
         // emailRelayLimits
         int pos1 = value.indexOf('|');
         if (pos1 == -1) {
-          throw new IOException("Unable to parse emailRelayLimits: "+value);
+          throw new IOException("Unable to parse emailRelayLimits: " + value);
         }
-        int pos2 = value.indexOf('|', pos1+1);
+        int pos2 = value.indexOf('|', pos1 + 1);
         if (pos2 == -1) {
-          throw new IOException("Unable to parse emailRelayLimits: "+value);
+          throw new IOException("Unable to parse emailRelayLimits: " + value);
         }
         try {
           String name = value.substring(0, pos1);
-          int burst = Integer.parseInt(value.substring(pos1+1, pos2));
-          float rate = Float.parseFloat(value.substring(pos2+1));
+          int burst = Integer.parseInt(value.substring(pos1 + 1, pos2));
+          float rate = Float.parseFloat(value.substring(pos2 + 1));
           emailRelayLimits.put(name, new EmailLimit(burst, rate));
         } catch (NumberFormatException err) {
-          throw new IOException("Unable to parse emailRelayLimits: "+value, err);
+          throw new IOException("Unable to parse emailRelayLimits: " + value, err);
         }
       }
     }
@@ -318,7 +318,7 @@ public class JilterConfiguration {
     boolean matches;
     if (!propsUF.exists()) {
       if (log.isTraceEnabled()) {
-        log.trace("configuration file doesn't exist: "+PROPS_FILE);
+        log.trace("configuration file doesn't exist: " + PROPS_FILE);
       }
       matches = false;
     } else {
@@ -328,7 +328,7 @@ public class JilterConfiguration {
         JilterConfiguration current = getJilterConfiguration();
         matches = equals(current);
       } catch (IOException err) {
-        log.warn("Can't load existing configuration, building new configuration file: "+PROPS_FILE, err);
+        log.warn("Can't load existing configuration, building new configuration file: " + PROPS_FILE, err);
         matches = false;
       }
     }
@@ -370,60 +370,60 @@ public class JilterConfiguration {
         // domainBusinesses
         int domainCounter = 1;
         for (String domain : domainBusinesses.keySet()) {
-          props.setProperty("domainBusinesses."+(domainCounter++), domainBusinesses.get(domain)+"|"+domain);
+          props.setProperty("domainBusinesses." + (domainCounter++), domainBusinesses.get(domain) + "|" + domain);
         }
 
         // domainAddresses
         int addressCounter = 1;
         for (String domain : domainAddresses.keySet()) {
           for (String address : domainAddresses.get(domain)) {
-            props.setProperty("addresses."+(addressCounter++), address+'@'+domain);
+            props.setProperty("addresses." + (addressCounter++), address + '@' + domain);
           }
         }
 
         // ips
         int ipCounter = 1;
         for (String ip : ips) {
-          props.setProperty("ips."+(ipCounter++), ip);
+          props.setProperty("ips." + (ipCounter++), ip);
         }
 
         // denies
         int deniesCounter = 1;
         for (String deny : denies) {
-          props.setProperty("denies."+(deniesCounter++), deny);
+          props.setProperty("denies." + (deniesCounter++), deny);
         }
 
         // denySpams
         int denySpamsCounter = 1;
         for (String denySpam : denySpams) {
-          props.setProperty("denySpams."+(denySpamsCounter++), denySpam);
+          props.setProperty("denySpams." + (denySpamsCounter++), denySpam);
         }
 
         // denySpams
         int allowRelaysCounter = 1;
         for (String allowRelay : allowRelays) {
-          props.setProperty("allowRelays."+(allowRelaysCounter++), allowRelay);
+          props.setProperty("allowRelays." + (allowRelaysCounter++), allowRelay);
         }
 
         // emailInLimits
         int emailInLimitsCounter = 1;
         for (String name : emailInLimits.keySet()) {
           EmailLimit limit = emailInLimits.get(name);
-          props.setProperty("emailInLimits."+(emailInLimitsCounter++), name+"|"+limit.getBurst()+"|"+limit.getRate());
+          props.setProperty("emailInLimits." + (emailInLimitsCounter++), name + "|" + limit.getBurst() + "|" + limit.getRate());
         }
 
         // emailOutLimits
         int emailOutLimitsCounter = 1;
         for (String name : emailOutLimits.keySet()) {
           EmailLimit limit = emailOutLimits.get(name);
-          props.setProperty("emailOutLimits."+(emailOutLimitsCounter++), name+"|"+limit.getBurst()+"|"+limit.getRate());
+          props.setProperty("emailOutLimits." + (emailOutLimitsCounter++), name + "|" + limit.getBurst() + "|" + limit.getRate());
         }
 
         // emailRelayLimits
         int emailRelayLimitsCounter = 1;
         for (String name : emailRelayLimits.keySet()) {
           EmailLimit limit = emailRelayLimits.get(name);
-          props.setProperty("emailRelayLimits."+(emailRelayLimitsCounter++), name+"|"+limit.getBurst()+"|"+limit.getRate());
+          props.setProperty("emailRelayLimits." + (emailRelayLimitsCounter++), name + "|" + limit.getBurst() + "|" + limit.getRate());
         }
 
         props.store(bout, comment);
@@ -582,7 +582,7 @@ public class JilterConfiguration {
       return false;
     }
 
-    return equals((JilterConfiguration)obj);
+    return equals((JilterConfiguration) obj);
   }
 
   public boolean equals(JilterConfiguration other) {
@@ -685,8 +685,8 @@ public class JilterConfiguration {
    */
   public static boolean equals(Set<?> set1, Set<?> set2) {
     return
-      set1.size() == set2.size()
-      && set1.containsAll(set2)
+        set1.size() == set2.size()
+            && set1.containsAll(set2)
     ;
   }
 
@@ -708,7 +708,7 @@ public class JilterConfiguration {
     for (Object key : keySet1) {
       if (!equals(map1.get(key), map2.get(key))) {
         if (log.isTraceEnabled()) {
-          log.trace("equals(Map<?, ? extends Set<?>> map1, Map<?, ? extends Set<?>> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
+          log.trace("equals(Map<?, ? extends Set<?>> map1, Map<?, ? extends Set<?>> map2): key=\"" + key + "\": map1.get(key) != map2.get(key)");
         }
         return false;
       }
@@ -735,7 +735,7 @@ public class JilterConfiguration {
     for (Object key : keySet1) {
       if (!map1.get(key).equals(map2.get(key))) {
         if (log.isTraceEnabled()) {
-          log.trace("equals(Map<?, ?> map1, Map<?, ?> map2): key=\""+key+"\": map1.get(key) != map2.get(key)");
+          log.trace("equals(Map<?, ?> map1, Map<?, ?> map2): key=\"" + key + "\": map1.get(key) != map2.get(key)");
         }
         return false;
       }

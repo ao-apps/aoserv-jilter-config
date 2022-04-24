@@ -35,13 +35,13 @@ public class EmailLimit {
 
   public EmailLimit(int burst, float rate) {
     if (burst <= 0) {
-      throw new IllegalArgumentException("Invalid burst, must be > 0: "+burst);
+      throw new IllegalArgumentException("Invalid burst, must be > 0: " + burst);
     }
     if (Float.isNaN(rate)) {
-      throw new IllegalArgumentException("rate may not be NaN: "+rate);
+      throw new IllegalArgumentException("rate may not be NaN: " + rate);
     }
     if (rate <= 0) {
-      throw new IllegalArgumentException("rate must be > 0: "+rate);
+      throw new IllegalArgumentException("rate must be > 0: " + rate);
     }
     this.burst = burst;
     this.rate = rate;
@@ -57,10 +57,10 @@ public class EmailLimit {
     if (!(obj instanceof EmailLimit)) {
       return false;
     }
-    EmailLimit other = (EmailLimit)obj;
+    EmailLimit other = (EmailLimit) obj;
     return
-      burst == other.burst
-      && rate == other.rate
+        burst == other.burst
+            && rate == other.rate
     ;
   }
 
