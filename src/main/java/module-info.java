@@ -28,4 +28,4 @@ module com.aoindustries.aoserv.jilter.config {
   requires com.aoapps.lang; // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
   requires static com.aoindustries.aoserv.client; // <groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId>
   requires commons.logging; // <groupId>commons-logging</groupId><artifactId>commons-logging</artifactId>
-}
+} // TODO: Avoiding rewrite-maven-plugin-4.22.2 truncation
