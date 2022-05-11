@@ -33,6 +33,9 @@ public class EmailLimit {
   private final int burst;
   private final float rate;
 
+  /**
+   * Creates a new email limit.
+   */
   public EmailLimit(int burst, float rate) {
     if (burst <= 0) {
       throw new IllegalArgumentException("Invalid burst, must be > 0: " + burst);
@@ -60,8 +63,7 @@ public class EmailLimit {
     EmailLimit other = (EmailLimit) obj;
     return
         burst == other.burst
-            && rate == other.rate
-    ;
+            && rate == other.rate;
   }
 
   public int getBurst() {

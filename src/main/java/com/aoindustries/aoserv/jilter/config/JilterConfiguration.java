@@ -95,9 +95,9 @@ public class JilterConfiguration {
   }
 
   private final String version;
-  private final String listenIP;
+  private final String listenIp;
   private final int listenPort;
-  private final boolean restrict_outbound_email;
+  private final boolean restrictOutboundEmail;
   private final String smtpServer;
   private final String emailSummaryFrom;
   private final String emailSummaryTo;
@@ -113,10 +113,13 @@ public class JilterConfiguration {
   private final Map<String, EmailLimit> emailOutLimits;
   private final Map<String, EmailLimit> emailRelayLimits;
 
+  /**
+   * Creates a new Jilter configuration.
+   */
   public JilterConfiguration(
-      String listenIP,
+      String listenIp,
       int listenPort,
-      boolean restrict_outbound_email,
+      boolean restrictOutboundEmail,
       String smtpServer,
       String emailSummaryFrom,
       String emailSummaryTo,
@@ -133,9 +136,9 @@ public class JilterConfiguration {
       Map<String, EmailLimit> emailRelayLimits
   ) {
     this.version = VERSION_3;
-    this.listenIP = listenIP;
+    this.listenIp = listenIp;
     this.listenPort = listenPort;
-    this.restrict_outbound_email = restrict_outbound_email;
+    this.restrictOutboundEmail = restrictOutboundEmail;
     this.smtpServer = smtpServer;
     this.emailSummaryFrom = emailSummaryFrom;
     this.emailSummaryTo = emailSummaryTo;
@@ -169,8 +172,8 @@ public class JilterConfiguration {
       businessesKey = "domainBusinesses";
     }
 
-    // listenIP
-    listenIP = props.getProperty(
+    // listenIp
+    listenIp = props.getProperty(
         VERSION_1.equals(version) || VERSION_2.equals(version)
             ? "primaryIP"
             : "listenIP"
@@ -181,14 +184,13 @@ public class JilterConfiguration {
       listenPort =
           VERSION_1.equals(version) || VERSION_2.equals(version)
               ? DEFAULT_MILTER_PORT
-              : Integer.parseInt(props.getProperty("listenPort"))
-      ;
+              : Integer.parseInt(props.getProperty("listenPort"));
     } catch (NumberFormatException err) {
       throw new IOException("Unable to parse listenPort: " + props.getProperty("listenPort"), err);
     }
 
     // restrict_outbound_email
-    restrict_outbound_email = Boolean.parseBoolean(props.getProperty("restrict_outbound_email"));
+    restrictOutboundEmail = Boolean.parseBoolean(props.getProperty("restrict_outbound_email"));
 
     // Email settings
     smtpServer = props.getProperty("smtp.server");
@@ -341,14 +343,14 @@ public class JilterConfiguration {
         // VERSION
         props.setProperty("version", VERSION_3);
 
-        // listenIP
-        props.setProperty("listenIP", listenIP);
+        // listenIp
+        props.setProperty("listenIP", listenIp);
 
         // listenPort
         props.setProperty("listenPort", Integer.toString(listenPort));
 
         // restrict_outbound_email
-        props.setProperty("restrict_outbound_email", Boolean.toString(restrict_outbound_email));
+        props.setProperty("restrict_outbound_email", Boolean.toString(restrictOutboundEmail));
 
         // Email settings
         if (smtpServer != null) {
@@ -449,26 +451,26 @@ public class JilterConfiguration {
   }
 
   /**
-   * @see  com.aoindustries.aoserv.client.net.Host#getNetBinds(com.aoindustries.aoserv.client.net.AppProtocol)
-   * @see  com.aoindustries.aoserv.client.net.AppProtocol#MILTER
+   * See {@link com.aoindustries.aoserv.client.net.Host#getNetBinds(com.aoindustries.aoserv.client.net.AppProtocol)}
+   * and {@link com.aoindustries.aoserv.client.net.AppProtocol#MILTER}.
    */
-  public String getListenIP() {
-    return listenIP;
+  public String getListenIp() {
+    return listenIp;
   }
 
   /**
-   * @see  com.aoindustries.aoserv.client.net.Host#getNetBinds(com.aoindustries.aoserv.client.net.AppProtocol)
-   * @see  com.aoindustries.aoserv.client.net.AppProtocol#MILTER
+   * See {@link com.aoindustries.aoserv.client.net.Host#getNetBinds(com.aoindustries.aoserv.client.net.AppProtocol)}
+   * and {@link com.aoindustries.aoserv.client.net.AppProtocol#MILTER}.
    */
   public int getListenPort() {
     return listenPort;
   }
 
   /**
-   * @see  com.aoindustries.aoserv.client.linux.Server#getRestrictOutboundEmail()
+   * See {@link com.aoindustries.aoserv.client.linux.Server#getRestrictOutboundEmail()}.
    */
   public boolean getRestrictOutboundEmail() {
-    return restrict_outbound_email;
+    return restrictOutboundEmail;
   }
 
   /**
@@ -524,7 +526,7 @@ public class JilterConfiguration {
   /**
    * Returns <code>true</code> if the provided IP address is a local address.
    */
-  public boolean isLocalIPAddress(String ip) {
+  public boolean isLocalIpAddress(String ip) {
     return ips.contains(ip);
   }
 
@@ -585,14 +587,17 @@ public class JilterConfiguration {
     return equals((JilterConfiguration) obj);
   }
 
+  /**
+   * See {@link #equals(java.lang.Object)}.
+   */
   public boolean equals(JilterConfiguration other) {
     if (!version.equals(other.version)) {
       log.trace("equals(JilterConfiguration other): version != other.version, returning false");
       return false;
     }
 
-    if (!listenIP.equals(other.listenIP)) {
-      log.trace("equals(JilterConfiguration other): listenIP != other.listenIP, returning false");
+    if (!listenIp.equals(other.listenIp)) {
+      log.trace("equals(JilterConfiguration other): listenIp != other.listenIp, returning false");
       return false;
     }
 
@@ -601,7 +606,7 @@ public class JilterConfiguration {
       return false;
     }
 
-    if (restrict_outbound_email != other.restrict_outbound_email) {
+    if (restrictOutboundEmail != other.restrictOutboundEmail) {
       log.trace("equals(JilterConfiguration other): restrict_outbound_email != other.restrict_outbound_email, returning false");
       return false;
     }
@@ -686,8 +691,7 @@ public class JilterConfiguration {
   public static boolean equals(Set<?> set1, Set<?> set2) {
     return
         set1.size() == set2.size()
-            && set1.containsAll(set2)
-    ;
+            && set1.containsAll(set2);
   }
 
   /**
