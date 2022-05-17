@@ -43,12 +43,12 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * In order to avoid a real-time dependency between the Jilter code and the full
- * AOServ Platform, the configuration values for the jilter is placed into a
+ * AOServ Platform, the configuration values for the jilter are placed into a
  * properties file that is stored in
  * <code>/etc/opt/aoserv-jilter/aoserv-jilter.properties</code>.  The
  * <code>aoserv-daemon</code> will rebuild this file when any of its related
- * tables have been updated, and at daemon start-up.  The result is that jilter
- * can work off the last config file even when AOServ is down for maintenance of
+ * tables have been updated and at daemon start-up.  The result is that jilter
+ * can work off the last config file even when AOServ is down for maintenance or
  * not working properly.
  *
  * @author  AO Industries, Inc.
