@@ -44,7 +44,7 @@ along with aoserv-jilter-config.  If not, see <https://www.gnu.org/licenses/>.
     <javadoc.breadcrumbs><![CDATA[<a target="${javadoc.target}" href="https://aoindustries.com/aoserv/">AOServ</a>
 / <a target="${javadoc.target}" href="https://aoindustries.com/aoserv/jilter/">Jilter</a>
 / <a target="${javadoc.target}" href="${project.url}">Config</a>]]></javadoc.breadcrumbs>
-        
+
     <description.html><![CDATA[Configuration API for <a target="${javadoc.target}" href="https://aoindustries.com/aoserv/jilter/">AOServ Jilter</a>.]]></description.html>
     <!-- TODO: Remove once moved to platform.aoapps.com -->
     <google.analytics.trackingId>UA-86871646-1</google.analytics.trackingId>
