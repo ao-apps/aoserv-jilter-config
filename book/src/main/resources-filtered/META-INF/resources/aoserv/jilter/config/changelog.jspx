@@ -37,7 +37,7 @@ along with aoserv-jilter-config.  If not, see <https://www.gnu.org/licenses/>.
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-04-12T23:41:49-05:00"
-    dateModified="2022-05-17T02:36:22-05:00"
+    dateModified="2023-12-06T03:02:33Z"
   >
     <c:set var="latestRelease" value="1.89.0" />
     <c:if test="${
@@ -52,7 +52,11 @@ along with aoserv-jilter-config.  If not, see <https://www.gnu.org/licenses/>.
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      />
+      >
+        <ul>
+          <li>Updated dependencies.</li>
+        </ul>
+      </changelog:release>
     </c:if>
 
     <changelog:release

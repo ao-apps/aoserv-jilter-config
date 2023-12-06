@@ -1,6 +1,6 @@
 /*
  * aoserv-jilter-config - Configuration API for AOServ Jilter.
- * Copyright (C) 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2021, 2022, 2023  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -27,5 +27,5 @@ module com.aoindustries.aoserv.jilter.config {
   requires static com.aoapps.hodgepodge; // <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
   requires com.aoapps.lang; // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
   requires static com.aoindustries.aoserv.client; // <groupId>com.aoindustries</groupId><artifactId>aoserv-client</artifactId>
-  requires commons.logging; // <groupId>commons-logging</groupId><artifactId>commons-logging</artifactId>
+  requires org.apache.commons.logging; // <groupId>commons-logging</groupId><artifactId>commons-logging</artifactId>
 }
