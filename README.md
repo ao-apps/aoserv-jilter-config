@@ -21,7 +21,7 @@ Configuration API for [AOServ Jilter](https://github.com/ao-apps/aoserv-jilter).
 * [Project Home](https://aoindustries.com/aoserv/jilter/config/)
 * [Changelog](https://aoindustries.com/aoserv/jilter/config/changelog)
 * [API Docs](https://aoindustries.com/aoserv/jilter/config/apidocs/)
-* [Maven Central Repository](https://central.sonatype.com/artifact/com.aoindustries/aoserv-jilter-config)
+* [Central Repository](https://central.sonatype.com/artifact/com.aoindustries/aoserv-jilter-config)
 * [GitHub](https://github.com/ao-apps/aoserv-jilter-config)
 
 ## Contact Us
