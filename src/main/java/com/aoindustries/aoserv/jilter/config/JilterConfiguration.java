@@ -1,6 +1,6 @@
 /*
  * aoserv-jilter-config - Configuration API for AOServ Jilter.
- * Copyright (C) 2007-2013, 2014, 2015, 2016, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2007-2013, 2014, 2015, 2016, 2020, 2021, 2022, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -588,8 +588,15 @@ public class JilterConfiguration {
   }
 
   /**
-   * See {@link #equals(java.lang.Object)}.
+   * See {@link #equals(java.lang.Object) equals(java.lang.Object)}.
    */
+  // Non-reproducible Javadocs with this: See {@link #equals(java.lang.Object)}.
+  // (at least in Java 21).
+  // It bounces between:
+  //     "<code>equals(java.lang.Object)</code>"
+  //     "<code>JilterConfiguration.equals(java.lang.Object)</code>"
+  // Which results on a large overall non-reproducible publishing WAR file.
+  //
   public boolean equals(JilterConfiguration other) {
     if (!version.equals(other.version)) {
       log.trace("equals(JilterConfiguration other): version != other.version, returning false");
