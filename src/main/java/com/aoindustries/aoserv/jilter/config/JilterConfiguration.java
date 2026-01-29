@@ -158,7 +158,7 @@ public class JilterConfiguration {
   /**
    * Loads the current configuration from the props file.
    *
-   * @see  #getJilterConfiguration
+   * @see  JilterConfiguration#getJilterConfiguration
    */
   private JilterConfiguration() throws IOException {
     Properties props = PropertiesUtils.loadFromFile(propsUF);
@@ -588,15 +588,8 @@ public class JilterConfiguration {
   }
 
   /**
-   * See {@link #equals(java.lang.Object) equals(java.lang.Object)}.
+   * See {@link JilterConfiguration#equals(java.lang.Object) equals(java.lang.Object)}.
    */
-  // Non-reproducible Javadocs with this: See {@link #equals(java.lang.Object)}.
-  // (at least in Java 21).
-  // It bounces between:
-  //     "<code>equals(java.lang.Object)</code>"
-  //     "<code>JilterConfiguration.equals(java.lang.Object)</code>"
-  // Which results on a large overall non-reproducible publishing WAR file.
-  //
   public boolean equals(JilterConfiguration other) {
     if (!version.equals(other.version)) {
       log.trace("equals(JilterConfiguration other): version != other.version, returning false");
